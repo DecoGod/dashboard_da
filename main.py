@@ -13,6 +13,8 @@ logo_2 = "http://www2.decom.ufop.br/terralab/wp-content/uploads/2020/07/terraLab
 logo = app.get_asset_url("logo1.png")
 logo = './' + logo
 
+print(logo)
+
 background_style = {
     "height": "100vh",
     "background-color": "#242424",
