@@ -50,7 +50,7 @@ app.layout = html.Div(
                     "display": "flex",
                     "justify-content": "center"
                 }, children=[
-                    html.Img(src=logo, style={
+                    html.Img(src=logo_2, style={
                         "height": "53px",
                         "width": "227px"
                     })
