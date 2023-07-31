@@ -3,12 +3,19 @@ import dash_bootstrap_components as dbc
 import dash_html_components as html
 import dash_core_components as dcc
 import sys
+import os
 
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 logo_2 = "http://www2.decom.ufop.br/terralab/wp-content/uploads/2020/07/terraLabLogo-Horizontal-228x45.png"
 
-logo = app.get_asset_url('logo1.png')
+
+old_dir = os.getcwd()
+this_dir, this_filename = os.path.split(__file__)
+os.chdir(this_dir)
+DATA_PATH = os.path.join(this_dir, 'logo1.png')
+
+logo = app.get_asset_url(DATA_PATH)
 
 background_style = {
     "height": "100vh",
