@@ -10,12 +10,8 @@ app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 logo_2 = "http://www2.decom.ufop.br/terralab/wp-content/uploads/2020/07/terraLabLogo-Horizontal-228x45.png"
 
 
-old_dir = os.getcwd()
-this_dir, this_filename = os.path.split(__file__)
-os.chdir(this_dir)
-DATA_PATH = os.path.join(this_dir, 'assets/logo1.png')
-
-logo = app.get_asset_url(DATA_PATH)
+logo = app.get_asset_url("logo1.png")
+logo = './' + logo
 
 background_style = {
     "height": "100vh",
@@ -48,7 +44,7 @@ app.layout = html.Div(
     [
         html.Div(id="header", style=header_style, children=[
             dbc.Col(
-                html.Div(id="logo", style={
+                html.Div(id=logo, style={
                     "display": "flex",
                     "justify-content": "center"
                 }, children=[
