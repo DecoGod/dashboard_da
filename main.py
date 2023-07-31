@@ -13,7 +13,7 @@ logo_2 = "http://www2.decom.ufop.br/terralab/wp-content/uploads/2020/07/terraLab
 old_dir = os.getcwd()
 this_dir, this_filename = os.path.split(__file__)
 os.chdir(this_dir)
-DATA_PATH = os.path.join(this_dir, 'logo1.png')
+DATA_PATH = os.path.join(this_dir, '/assets/logo1.png')
 
 logo = app.get_asset_url(DATA_PATH)
 
