@@ -6,3 +6,4 @@ dash_bootstrap_components
 psycopg2
 plotly
 pillow
+pandas
