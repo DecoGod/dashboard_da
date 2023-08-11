@@ -1,19 +1,25 @@
 import dash
 import dash_bootstrap_components as dbc
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import dcc, html, callback, Input, Output
 import sys
 import os
+from functions import *
 
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 logo_2 = "http://www2.decom.ufop.br/terralab/wp-content/uploads/2020/07/terraLabLogo-Horizontal-228x45.png"
 
 
-logo = app.get_asset_url("logo1.png")
-logo = './' + logo
+# logo = app.get_asset_url("logo1.png")
+# logo = './' + logo
 
-print(logo)
+# print(logo)
+
+data_inicial = "2023-02-01"
+data_final   = "2023-02-28"
+success = get_successful_geocode(data_inicial, data_final)
+fails = get_fails_geocode(data_inicial, data_final)
+fig1 = graph_hit_fails(success,fails)
 
 background_style = {
     "height": "100vh",
@@ -46,7 +52,7 @@ app.layout = html.Div(
     [
         html.Div(id="header", style=header_style, children=[
             dbc.Col(
-                html.Div(id=logo, style={
+                html.Div(id=logo_2, style={
                     "display": "flex",
                     "justify-content": "center"
                 }, children=[
@@ -70,12 +76,14 @@ app.layout = html.Div(
                 html.Div("Inicio: ", style=text_label_style),
                 dcc.DatePickerSingle(
                     id="start-date-picker",
+                    date="2023-02-01"
                 )
             ]),
             dbc.Col(style=header_col_style, children=[
                 html.Div("Fim: ", style=text_label_style),
                 dcc.DatePickerSingle(
                     id="end-date-picker",
+                    date="2023-02-28"
                 )
             ]),
             dbc.Col(style=header_col_style, children=[
@@ -94,8 +102,7 @@ app.layout = html.Div(
                     value='1'
                 )
             ])
-        ]),
-        
+        ]),       
         html.Div(
             [
                 dbc.Row(
@@ -124,7 +131,13 @@ app.layout = html.Div(
                                         "height": "295px",
                                         "width": "800px",
                                         "margin-bottom" : "10px"
-                                    }
+                                    },
+                                    children= [
+                                        dcc.Graph(
+                                            id = "Figure1",
+                                            figure= fig1
+                                        )
+                                    ]
                                 ),
                                 html.Div(
                                     style={
@@ -146,8 +159,24 @@ app.layout = html.Div(
 )
 server = app.server
 
+@callback(
+    [
+        Output('Figure1','figure')
+    ],
+    [
+        Input('start-date-picker', 'date'),
+        Input('end-date-picker', 'date')
+    ]
+)
+def update_start_date(start,end):
+    success = get_successful_geocode(start, end)
+    fails = get_fails_geocode(start, end)
+    fig1 = graph_hit_fails(success,fails)
+    return [fig1]
+
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         app.run_server(debug=True)
     else:
         app.run_server(debug=True)
+
